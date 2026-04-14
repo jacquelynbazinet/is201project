@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbie Trivia Challenge 💖</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffc0db 35%, #ff85b3 70%, #e91e8c 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: #ffffffee;
+            border-radius: 28px;
+            padding: 40px 36px;
+            max-width: 560px;
+            width: 100%;
+            box-shadow: 0 20px 60px #d6006e33, 0 0 0 4px #ffd6e8;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #ff1493, #ff69b4, #ff1493, #e91e8c);
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #d6006e;
+            margin-bottom: 6px;
+            text-shadow: 1px 1px 3px #ff69b440;
+        }
+
+        .subtitle {
+            color: #f06292;
+            font-size: 1em;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: #ffd6e8;
+            border-radius: 99px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff69b4, #ff1493);
+            border-radius: 99px;
+            transition: width 0.5s ease;
+        }
+
+        .question-counter {
+            font-size: 0.85em;
+            color: #c2185b;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.25em;
+            color: #333;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            font-weight: 500;
+            min-height: 60px;
+        }
+
+        .answers-grid {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .answer-btn {
+            background: #fff5f9;
+            border: 2px solid #ffd6e8;
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-size: 1em;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            text-align: left;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            background: #ffe4ef;
+            border-color: #ff69b4;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px #ff149322;
+        }
+
+        .answer-btn.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .answer-btn.wrong {
+            background: #ffd6d6;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .answer-btn:disabled {
+            cursor: default;
+            opacity: 0.85;
+        }
+
+        .feedback {
+            font-size: 1em;
+            margin: 12px 0 16px;
+            min-height: 28px;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .feedback.correct-text { color: #28a745; }
+        .feedback.wrong-text { color: #dc3545; }
+
+        .next-btn {
+            display: none;
+            margin: 0 auto;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: #fff;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 4px 14px #ff149344;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px #ff149366;
+        }
+
+        /* Score Screen */
+        .score-screen { display: none; }
+
+        .score-screen h2 {
+            font-size: 1.8em;
+            color: #d6006e;
+            margin-bottom: 8px;
+        }
+
+        .score-big {
+            font-size: 4em;
+            font-weight: 800;
+            color: #ff1493;
+            margin: 12px 0;
+            text-shadow: 2px 2px 8px #ff69b455;
+        }
+
+        .score-msg {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .play-again-btn {
+            padding: 14px 36px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: #fff;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 4px 14px #ff149344;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 16px;
+        }
+
+        .play-again-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px #ff149366;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: #ff1493;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        /* Start Screen */
+        .start-screen {
+            padding: 20px 0;
+        }
+
+        .start-screen p {
+            color: #555;
+            font-size: 1.05em;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .start-btn {
+            padding: 16px 48px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 6px 20px #ff149344;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px #ff149366;
+        }
+
+        /* Confetti animation */
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            opacity: 0.9;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+
+    <!-- START SCREEN -->
+    <div class="start-screen" id="startScreen">
+        <h1>💖 Barbie Trivia</h1>
+        <p class="subtitle">How well do you ACTUALLY know Barbie?</p>
+        <p>10 questions. From the Dreamhouse to the big screen — let's see if you're a true Barbie expert or just a Ken.</p>
+        <button class="start-btn" onclick="startGame()">Let's Go! ✨</button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quizScreen" style="display:none;">
+        <h1>💖 Barbie Trivia</h1>
+        <p class="subtitle">How well do you ACTUALLY know Barbie?</p>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+
+        <div class="question-counter" id="questionCounter">Question 1 of 10</div>
+        <div class="question-text" id="questionText"></div>
+        <div class="answers-grid" id="answersGrid"></div>
+        <div class="feedback" id="feedback"></div>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+    </div>
+
+    <!-- SCORE SCREEN -->
+    <div class="score-screen" id="scoreScreen">
+        <h2>Results Are In!</h2>
+        <div class="score-big" id="scoreBig"></div>
+        <div class="score-msg" id="scoreMsg"></div>
+        <button class="play-again-btn" onclick="startGame()">Play Again 💖</button>
+        <br>
+        <a class="back-link" href="scratch.html">← Back to Barbie Page</a>
+    </div>
+
+</div>
+
+<script>
+    const allQuestions = [
+        {
+            q: "What year was the first Barbie doll introduced?",
+            answers: ["1955", "1959", "1962", "1965"],
+            correct: 1
+        },
+        {
+            q: "What is Barbie's full name?",
+            answers: ["Barbara Millicent Roberts", "Barbara Anne Handler", "Barbara Marie Johnson", "Barbara Rose Carter"],
+            correct: 0
+        },
+        {
+            q: "Who directed the 2023 Barbie movie?",
+            answers: ["Patty Jenkins", "Olivia Wilde", "Greta Gerwig", "Sofia Coppola"],
+            correct: 2
+        },
+        {
+            q: "What is the name of Barbie's little sister?",
+            answers: ["Stacey", "Skipper", "Kelly", "Chelsea"],
+            correct: 1
+        },
+        {
+            q: "How much did the 2023 Barbie film gross worldwide?",
+            answers: ["$800 million", "Over $1.4 billion", "$600 million", "$1 billion exactly"],
+            correct: 1
+        },
+        {
+            q: "What was Barbie's first ever career?",
+            answers: ["Fashion Designer", "Astronaut", "Teen Fashion Model", "Nurse"],
+            correct: 2
+        },
+        {
+            q: "What color was the original Barbie's swimsuit?",
+            answers: ["Pink", "Black and white striped", "Blue", "Red polka dot"],
+            correct: 1
+        },
+        {
+            q: "What is Ken's last name?",
+            answers: ["Roberts", "Carson", "Davis", "Handler"],
+            correct: 1
+        },
+        {
+            q: "In what city was Barbie 'born' (created)?",
+            answers: ["New York City", "Los Angeles", "Chicago", "El Segundo, California"],
+            correct: 3
+        },
+        {
+            q: "Which Barbie movie features the song 'Free' by Erika?",
+            answers: ["Barbie: Fairytopia", "Barbie as The Princess and the Pauper", "Barbie: Swan Lake", "Barbie: The Pearl Princess"],
+            correct: 1
+        },
+        {
+            q: "What was the name of Ryan Gosling's Oscar-performed song?",
+            answers: ["Barbie World", "I'm Just Ken", "What Was I Made For?", "Dance the Night"],
+            correct: 1
+        },
+        {
+            q: "How many careers has Barbie had (approximately)?",
+            answers: ["Over 50", "Over 100", "Over 200", "Over 250"],
+            correct: 2
+        },
+        {
+            q: "What is Barbie's Dreamhouse address in Malibu?",
+            answers: ["123 Barbie Lane", "1 Dream Drive", "There isn't an official one", "42 Dreamhouse Way"],
+            correct: 2
+        },
+        {
+            q: "Who is Barbie's best friend?",
+            answers: ["Teresa", "Midge", "Nikki", "Christie"],
+            correct: 1
+        },
+        {
+            q: "Which actress played Barbie in the 2023 movie?",
+            answers: ["Emma Stone", "Scarlett Johansson", "Margot Robbie", "Florence Pugh"],
+            correct: 2
+        }
+    ];
+
+    let questions = [];
+    let current = 0;
+    let score = 0;
+
+    function shuffle(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function startGame() {
+        questions = shuffle([...allQuestions]).slice(0, 10);
+        current = 0;
+        score = 0;
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('scoreScreen').style.display = 'none';
+        document.getElementById('quizScreen').style.display = 'block';
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const q = questions[current];
+        document.getElementById('questionCounter').textContent = `Question ${current + 1} of ${questions.length}`;
+        document.getElementById('progressBar').style.width = `${((current) / questions.length) * 100}%`;
+        document.getElementById('questionText').textContent = q.q;
+        document.getElementById('feedback').textContent = '';
+        document.getElementById('feedback').className = 'feedback';
+        document.getElementById('nextBtn').style.display = 'none';
+
+        const grid = document.getElementById('answersGrid');
+        grid.innerHTML = '';
+
+        q.answers.forEach((ans, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'answer-btn';
+            btn.textContent = ans;
+            btn.onclick = () => selectAnswer(i);
+            grid.appendChild(btn);
+        });
+    }
+
+    function selectAnswer(index) {
+        const q = questions[current];
+        const btns = document.querySelectorAll('.answer-btn');
+        const feedback = document.getElementById('feedback');
+
+        btns.forEach(b => b.disabled = true);
+
+        if (index === q.correct) {
+            btns[index].classList.add('correct');
+            feedback.textContent = '✅ Correct! You go, Barbie!';
+            feedback.className = 'feedback correct-text';
+            score++;
+        } else {
+            btns[index].classList.add('wrong');
+            btns[q.correct].classList.add('correct');
+            feedback.textContent = `❌ Nope! The answer was: ${q.answers[q.correct]}`;
+            feedback.className = 'feedback wrong-text';
+        }
+
+        document.getElementById('nextBtn').style.display = 'inline-block';
+        document.getElementById('nextBtn').textContent = current === questions.length - 1 ? 'See Results ✨' : 'Next Question →';
+    }
+
+    function nextQuestion() {
+        current++;
+        if (current >= questions.length) {
+            showScore();
+        } else {
+            loadQuestion();
+        }
+    }
+
+    function showScore() {
+        document.getElementById('quizScreen').style.display = 'none';
+        document.getElementById('scoreScreen').style.display = 'block';
+        document.getElementById('scoreBig').textContent = `${score} / ${questions.length}`;
+
+        const pct = score / questions.length;
+        let msg = '';
+        if (pct === 1) {
+            msg = "💅 PERFECT SCORE! You ARE Barbie. Stereotypical Barbie, even.";
+            launchConfetti();
+        } else if (pct >= 0.8) {
+            msg = "🌟 Amazing! You basically live in the Dreamhouse.";
+            launchConfetti();
+        } else if (pct >= 0.6) {
+            msg = "👛 Not bad! You know your stuff — but there's room to grow.";
+        } else if (pct >= 0.4) {
+            msg = "🤷‍♀️ You might be more of a Ken, honestly.";
+        } else {
+            msg = "😬 Yikes... have you even SEEN a Barbie movie? Time to study up!";
+        }
+        document.getElementById('scoreMsg').textContent = msg;
+    }
+
+    function launchConfetti() {
+        const colors = ['#ff1493', '#ff69b4', '#ffd700', '#ff85b3', '#e91e8c', '#fff', '#ffc0db'];
+        for (let i = 0; i < 60; i++) {
+            const el = document.createElement('div');
+            el.className = 'confetti';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.background = colors[Math.floor(Math.random() * colors.length)];
+            el.style.width = (Math.random() * 8 + 6) + 'px';
+            el.style.height = (Math.random() * 8 + 6) + 'px';
+            el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            el.style.animationDelay = (Math.random() * 1.5) + 's';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 5000);
+        }
+    }
+</script>
+
+</body>
+</html>

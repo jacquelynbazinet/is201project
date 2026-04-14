@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's Talk Barbie!!!</title>
+    <!-- External stylesheet (required by project) -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- DIV 1: Page Wrapper -->
+    <div class="page-wrapper">
+
+        <!-- DIV 2: Hero Section -->
+        <div class="hero-section" id="top">
+            <h1>✨ Let's Talk Barbie!!! ✨</h1>
+            <h3>I'm a Barbie girl, in a Barbie world...</h3>
+            <img class="hero-image" src="https://upload.wikimedia.org/wikipedia/en/2/2c/Barbie_The_Movie_%282023%29.jpg" alt="Barbie Movie Poster">
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="nav-section">
+            <a class="pink-button" href="#movies">Top Movies</a>
+            <a class="pink-button" href="#video">Watch</a>
+            <a class="pink-button" href="#data">Data</a>
+            <a class="pink-button" href="#app">Play the App</a>
+            <!-- Link back to professional pages (update this URL when you have it) -->
+            <a class="outline-button" href="index.html">🏠 Back to Professional Site</a>
+        </div>
+
+        <!-- DIV 3: Content Section — Ordered list with unordered list nested inside -->
+        <div class="content-section" id="movies">
+            <h2>🎀 Top Barbie Movies, Ranked</h2>
+            <ol>
+                <li>Barbie as The Princess and the Pauper (2004)
+                    <ul>
+                        <li>Best songs in the entire franchise</li>
+                        <li>Erika is an icon</li>
+                        <li>The cat-and-dog duo is elite comedy</li>
+                    </ul>
+                </li>
+                <li>Barbie (2023) — The Live Action One
+                    <ul>
+                        <li>Margot Robbie WAS Barbie</li>
+                        <li>Ryan Gosling's "I'm Just Ken" lives rent-free</li>
+                        <li>Made $1.4 billion at the box office</li>
+                    </ul>
+                </li>
+                <li>Barbie in the Nutcracker (2001)
+                    <ul>
+                        <li>The OG — started it all</li>
+                        <li>Peak holiday nostalgia</li>
+                    </ul>
+                </li>
+                <li>Barbie: Life in the Dreamhouse (Series)
+                    <ul>
+                        <li>Surprisingly hilarious for all ages</li>
+                        <li>Self-aware humor ahead of its time</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Embedded YouTube Video -->
+        <div class="video-section" id="video">
+            <h2>🎬 Iconic Barbie Moment</h2>
+            <p>Ryan Gosling performing "I'm Just Ken" at the Oscars — pure cinema.</p>
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/ByHMhpRpIxE" 
+                    title="I'm Just Ken - Ryan Gosling at the Oscars" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Tableau Embedded Visualization -->
+        <div class="tableau-section" id="data">
+            <h2>📊 Barbie vs. The World — Box Office Data</h2>
+            <p>A live Tableau visualization showing how Barbie (2023) stacked up at the box office.</p>
+            <div class="tableauPlaceholder" style="max-width:800px; margin:0 auto;">
+                <noscript>
+                    <a href="#">
+                        <img alt="Barbie Box Office Dashboard" src="https://public.tableau.com/static/images/placeholder.png" style="border: none" />
+                    </a>
+                </noscript>
+                <object class="tableauViz" style="display:none;">
+                    <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+                    <param name="embed_code_version" value="3" />
+                    <param name="site_root" value="" />
+                    <param name="name" value="2023TopGrossingFilms/Sheet1" />
+                    <param name="tabs" value="no" />
+                    <param name="toolbar" value="yes" />
+                    <param name="animate_transition" value="yes" />
+                    <param name="display_static_image" value="yes" />
+                    <param name="display_spinner" value="yes" />
+                    <param name="display_overlay" value="yes" />
+                    <param name="display_count" value="yes" />
+                    <param name="language" value="en-US" />
+                </object>
+            </div>
+        </div>
+
+        <!-- Web App Link -->
+        <div class="app-section" id="app">
+            <h2>🎮 Barbie Trivia Challenge</h2>
+            <p>Think you know everything about Barbie? Test your knowledge!</p>
+            <a class="pink-button" href="barbie-trivia.html" style="font-size: 1.2em; padding: 14px 32px;">
+                Play Barbie Trivia →
+            </a>
+        </div>
+
+        <!-- Footer with on-page anchor -->
+        <div class="footer">
+            <p><a class="outline-button" href="#top">⬆ Back to Top</a></p>
+            <p>Made with 💖 for IS 201</p>
+        </div>
+
+    </div>
+
+    <!-- Tableau JS (required for live embed) -->
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/viz_v1.js"></script>
+
+</body>
+</html>
